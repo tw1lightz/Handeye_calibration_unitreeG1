@@ -1,0 +1,48 @@
+ 已加好终端切换脚本 right_arm_mode.py:47。它支持右臂两种模式：
+
+  - free：右臂进入“可手拖”模式，做重力补偿并保留低阻尼
+  - lock：读取当前右臂关节角，按当前位置锁住
+  - interactive：在同一个终端里输入 free / lock / status / quit 切换，入口在
+    right_arm_mode.py:189
+
+  直接这样用：
+
+  conda activate hand_eye_calib
+  python /home/unitree/Desktop/hand_eye_calib/right_arm_mode.py
+
+  进入后输入：
+
+  free
+  lock
+  status
+  quit
+
+  如果只想单模式启动：
+
+  python /home/unitree/Desktop/hand_eye_calib/right_arm_mode.py --mode free
+  python /home/unitree/Desktop/hand_eye_calib/right_arm_mode.py --mode lock
+
+  我做过两项验证：py_compile 通过；在 hand_eye_calib 环境里 --help 能正常启
+  动。注意系统默认 python3 缺少所需依赖，所以请先 conda activate
+  hand_eye_calib 再运行。这个 free 模式不是“彻底断电”，而是“重力补偿 + 低阻尼手拖”；如
+  果觉得太松或太紧，可以调 --free-kd 和 --free-wrist-kd。
+
+  2026-03-30 追加：
+
+  这个仓库现在统一使用一个单独的 conda 环境：
+  hand_eye_calib
+
+  最简便的用法是先激活：
+
+  source /home/unitree/Desktop/hand_eye_calib/activate_handeye_env.sh
+
+  激活后直接运行：
+
+  python /home/unitree/Desktop/hand_eye_calib/right_arm_mode.py
+  python /home/unitree/Desktop/hand_eye_calib/read_right_arm_joints.py --help
+  python /home/unitree/Desktop/hand_eye_calib/point_control_demo.py --help
+  python /home/unitree/Desktop/hand_eye_calib/realsense_apriltag_pose.py --help
+
+  如果不想先 source，也可以用统一入口：
+
+  /home/unitree/Desktop/hand_eye_calib/run_pin_arm.sh /home/unitree/Desktop/hand_eye_calib/right_arm_mode.py
